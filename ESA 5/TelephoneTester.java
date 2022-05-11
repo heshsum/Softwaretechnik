@@ -20,8 +20,16 @@ public class TelephoneTester {
      * @param args not used
      */
     public static void main(String[] args) {
-        TelephoneList te = new TelephoneList();
-        System.out.println(te);
+        TelephoneList tl = new TelephoneList();
+        System.out.println(tl);
+
+        TelephoneEntry te1 = new TelephoneEntry("Eins", "1");
+        tl.add(te1);
+        System.out.println(tl);
+
+        TelephoneEntry te2 = new TelephoneEntry("Zwei", "2");
+        tl.add(te2);
+        System.out.println(tl);
     }
 }
 

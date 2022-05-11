@@ -96,15 +96,15 @@ public class TelephoneList implements TelephoneListSpec {
      */
     @Override
     public String toString() {
-        String printList = null;
-        if (teList.size() == 1) {
-            printList = teList.get(0).toString();
-        } else if (teList.size() > 1) {
-            printList = teList.get(0).toString() + ", ";
-            for (int i = 1; i < teList.size() - 2; i++) {
-                printList = teList.get(i).toString() + ", ";
-            } printList = printList + teList.get(teList.size() - 1).toString();
+        StringBuilder rs = new StringBuilder();
+        if (teList.size() > 0) {
+            for (int i = 0; i < teList.size(); i++) {
+                if (i > 0) {
+                    rs.append(", ");
+                }
+                rs.append(teList.get(i));
+            }
         }
-        return printList;
+        return rs.toString();
     }
 }
