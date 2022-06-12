@@ -32,7 +32,10 @@
     </target>
 
     <target name="get" depends="init" description="Hole Daten">
-        <echo message="Lade eine Datei aus dem Internet"/>
+        <echo message="Lade die JUnit library von Maven"/>
+        <!-- JUnit wird benötigt für das target "test". Da testing etwas zickig ist,
+         wird nun die passende library mit "get" vom Maven repository geladen und in
+         dem target "test" auf sie verwiesen.-->
         <get src="https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar" dest="${lib}">
         </get>
     </target>
