@@ -4,45 +4,44 @@
     </description>
 
     <property name="src" location="src/main"/>
-    <property name="web" location="ant/web"/>
     <property name="build" location="ant/build"/>
     <property name="dist" location="ant/dist"/>
+    <property name="lib" location="ant/lib"/>
     <property name="test-src" location="src/test"/>
     <property name="test-build" location="ant/test"/>
-    <property name="java-module" location="/Library/Java"/>
 
     <target name="clean" description="clean up">
         <echo message="Räume auf"/>
-        <delete dir="${web}"/>
         <delete dir="${build}"/>
+        <delete dir="${lib}"/>
         <delete dir="${test-build}"/>
         <delete dir="${dist}"/>
     </target>
 
     <target name="init" depends="clean">
         <echo message="Erstelle die notwendigen Verzeichnisse"/>
-        <mkdir dir="${web}"/>
         <mkdir dir="${build}"/>
+        <mkdir dir="${lib}"/>
         <mkdir dir="${test-build}"/>
         <mkdir dir="${dist}"/>
     </target>
 
-    <target name="get" depends="init" description="Hole Daten">
-        <echo message="Lade eine Datei aus dem Internet"/>
-        <get src="http://blog.heshsum.de" dest="${web}/web.html">
-        </get>
-    </target>
-
-    <target name="compile" depends="init,get" description="compile the source code">
+    <target name="compile" depends="init" description="compile the source code">
         <echo message="Baue das Projekt"/>
         <javac srcdir="${src}" destdir="${build}"/>
     </target>
 
-    <target name="test" depends="init" description="test the project">
+    <target name="get" depends="init" description="Hole Daten">
+        <echo message="Lade eine Datei aus dem Internet"/>
+        <get src="https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar" dest="${lib}">
+        </get>
+    </target>
+
+    <target name="test" depends="get" description="test the project">
         <echo message="Teste das Projekt"/>
         <junit fork="yes">
             <modulepath>
-                <pathelement path="${java-module}/JUnit/junit-4.13.2.jar"/>
+                <pathelement path="${lib}/junit-4.13.2.jar"/>
             </modulepath>
             <test name="test.AppTest"/>
         </junit>
