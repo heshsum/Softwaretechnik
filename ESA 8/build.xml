@@ -1,0 +1,55 @@
+<project name="SWT" default="dist" basedir=".">
+    <description>
+        Ant file to test and build the project.
+    </description>
+
+    <property name="src" location="src/main"/>
+    <property name="web" location="ant/web"/>
+    <property name="build" location="ant/build"/>
+    <property name="dist" location="ant/dist"/>
+    <property name="test-src" location="src/test"/>
+    <property name="test-build" location="ant/test"/>
+    <property name="java-module" location="/Library/Java"/>
+
+    <target name="clean" description="clean up">
+        <echo message="Räume auf"/>
+        <delete dir="${web}"/>
+        <delete dir="${build}"/>
+        <delete dir="${test-build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <echo message="Erstelle die notwendigen Verzeichnisse"/>
+        <mkdir dir="${web}"/>
+        <mkdir dir="${build}"/>
+        <mkdir dir="${test-build}"/>
+        <mkdir dir="${dist}"/>
+    </target>
+
+    <target name="get" depends="init" description="Hole Daten">
+        <echo message="Lade eine Datei aus dem Internet"/>
+        <get src="http://blog.heshsum.de" dest="${web}/web.html">
+        </get>
+    </target>
+
+    <target name="compile" depends="init,get" description="compile the source code">
+        <echo message="Baue das Projekt"/>
+        <javac srcdir="${src}" destdir="${build}"/>
+    </target>
+
+    <target name="test" depends="init" description="test the project">
+        <echo message="Teste das Projekt"/>
+        <junit fork="yes">
+            <modulepath>
+                <pathelement path="${java-module}/JUnit/junit-4.13.2.jar"/>
+            </modulepath>
+            <test name="test.AppTest"/>
+        </junit>
+    </target>
+
+    <target name="dist" depends="compile, test" description="generate the jar file">
+        <echo message="Verpacke das Projekt in eine jar"/>
+        <jar jarfile="${dist}/SWT.jar" basedir="${build}"/>
+    </target>
+</project>
