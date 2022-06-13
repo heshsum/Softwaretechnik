@@ -45,13 +45,24 @@
         <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar" dest="${lib}" />
     </target>
 
-    <target name="test" depends="get" description="test the project">
-        <echo message="Teste das Projekt"/>
-        <junit fork="yes">
+    <target name="test-compile" depends="init, get" description="compile the test source code">
+        <echo message="Baue Tests"/>
+        <javac srcdir="${test-src}" destdir="${test-build}" includeantruntime="false">
             <classpath>
                 <path refid="test-classpath"/>
             </classpath>
-            <test name="test.AppTest"/>
+        </javac>
+    </target>
+
+    <target name="test" depends="get, test-compile" description="test the project">
+        <echo message="Teste das Projekt"/>
+        <junit fork="yes" printsummary="on" haltonfailure="no">
+            <classpath>
+                <path refid="test-classpath"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="${test-build}"/>
+            </batchtest>
         </junit>
     </target>
 
