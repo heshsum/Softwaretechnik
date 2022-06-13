@@ -21,7 +21,7 @@
         <delete dir="ant"/>
     </target>
 
-    <target name="init" depends="clean">
+    <target name="init" depends="clean" description="create necessary directories">
         <echo message="Erstelle die notwendigen Verzeichnisse"/>
         <mkdir dir="${build}"/>
         <mkdir dir="${lib}"/>
@@ -59,7 +59,7 @@
             </classpath>
             <formatter type="brief" usefile="false"/>
             <batchtest>
-                <fileset dir="${src-test}" includes="*.java" />
+                <fileset dir="${src-test}" includes="*.java"/>
             </batchtest>
         </junit>
     </target>
