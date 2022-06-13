@@ -17,10 +17,7 @@
 
     <target name="clean" description="clean up">
         <echo message="Räume auf"/>
-        <delete dir="${build}"/>
-        <delete dir="${lib}"/>
-        <delete dir="${test-build}"/>
-        <delete dir="${dist}"/>
+        <delete dir="ant"/>
     </target>
 
     <target name="init" depends="clean">
@@ -33,7 +30,7 @@
 
     <target name="compile" depends="init" description="compile the source code">
         <echo message="Baue das Projekt"/>
-        <javac srcdir="${src}" destdir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
     </target>
 
     <target name="get" depends="init" description="Hole Daten">
@@ -60,6 +57,7 @@
             <classpath>
                 <path refid="test-classpath"/>
             </classpath>
+            <formatter type="brief" usefile="false"/>
             <batchtest>
                 <fileset dir="${test-build}"/>
             </batchtest>
