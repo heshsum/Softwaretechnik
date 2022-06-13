@@ -7,12 +7,13 @@
     <property name="build" location="ant/build"/>
     <property name="dist" location="ant/dist"/>
     <property name="lib" location="ant/lib"/>
-    <property name="test-src" location="src/test"/>
-    <property name="test-build" location="ant/test"/>
+    <property name="src-test" location="src/test"/>
+    <property name="build-test" location="ant/build-test"/>
 
     <path id="test-classpath">
         <pathelement location="${lib}/junit-4.13.2.jar"/>
         <pathelement location="${lib}/hamcrest-2.2.jar"/>
+        <pathelement location="${src-test}"/>
     </path>
 
     <target name="clean" description="clean up">
@@ -24,7 +25,7 @@
         <echo message="Erstelle die notwendigen Verzeichnisse"/>
         <mkdir dir="${build}"/>
         <mkdir dir="${lib}"/>
-        <mkdir dir="${test-build}"/>
+        <mkdir dir="${build-test}"/>
         <mkdir dir="${dist}"/>
     </target>
 
@@ -44,23 +45,17 @@
 
     <target name="test-compile" depends="init, get" description="compile the test source code">
         <echo message="Baue Tests"/>
-        <javac srcdir="${test-src}" destdir="${test-build}" includeantruntime="false">
-            <classpath>
-                <path refid="test-classpath"/>
-            </classpath>
+        <javac srcdir="${src-test}" destdir="${build-test}" includeantruntime="false">
+            <classpath refid="test-classpath"/>
         </javac>
     </target>
 
     <target name="test" depends="get, test-compile" description="test the project">
         <echo message="Teste das Projekt"/>
         <junit fork="yes" printsummary="on" haltonfailure="no">
-            <classpath>
-                <path refid="test-classpath"/>
-            </classpath>
+            <classpath refid="test-classpath"/>
             <formatter type="brief" usefile="false"/>
-            <batchtest>
-                <fileset dir="${test-build}"/>
-            </batchtest>
+            <test name="org.pareto.AppTest"/>
         </junit>
     </target>
 
