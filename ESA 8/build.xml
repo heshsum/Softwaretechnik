@@ -10,10 +10,10 @@
     <property name="src-test" location="src/test"/>
     <property name="build-test" location="ant/build-test"/>
 
-    <path id="test-classpath">
+    <path id="classpath">
         <pathelement location="${lib}/junit-4.13.2.jar"/>
         <pathelement location="${lib}/hamcrest-2.2.jar"/>
-        <pathelement location="${src-test}"/>
+        <pathelement location="${build}"/>
     </path>
 
     <target name="clean" description="clean up">
@@ -46,16 +46,21 @@
     <target name="test-compile" depends="init, get" description="compile the test source code">
         <echo message="Baue Tests"/>
         <javac srcdir="${src-test}" destdir="${build-test}" includeantruntime="false">
-            <classpath refid="test-classpath"/>
+            <classpath refid="classpath"/>
         </javac>
     </target>
 
     <target name="test" depends="get, test-compile" description="test the project">
         <echo message="Teste das Projekt"/>
         <junit fork="yes" printsummary="on" haltonfailure="no">
-            <classpath refid="test-classpath"/>
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${build-test}"/>
+            </classpath>
             <formatter type="brief" usefile="false"/>
-            <test name="org.pareto.AppTest"/>
+            <batchtest>
+                <fileset dir="${src-test}" includes="*.java" />
+            </batchtest>
         </junit>
     </target>
 
