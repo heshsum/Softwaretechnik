@@ -10,6 +10,11 @@
     <property name="test-src" location="src/test"/>
     <property name="test-build" location="ant/test"/>
 
+    <path id="test-classpath">
+        <pathelement location="${lib}/junit-4.13.2.jar"/>
+        <pathelement location="${lib}/hamcrest-2.2.jar"/>
+    </path>
+
     <target name="clean" description="clean up">
         <echo message="Räume auf"/>
         <delete dir="${build}"/>
@@ -32,20 +37,20 @@
     </target>
 
     <target name="get" depends="init" description="Hole Daten">
-        <echo message="Lade die JUnit library von Maven"/>
+        <echo message="Lade die benötigten librarys von Maven"/>
         <!-- JUnit wird benötigt für das target "test". Da testing etwas zickig ist,
          wird nun die passende library mit "get" vom Maven repository geladen und in
          dem target "test" auf sie verwiesen.-->
-        <get src="https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar" dest="${lib}">
-        </get>
+        <get src="https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar" dest="${lib}" />
+        <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar" dest="${lib}" />
     </target>
 
     <target name="test" depends="get" description="test the project">
         <echo message="Teste das Projekt"/>
         <junit fork="yes">
-            <modulepath>
-                <pathelement path="${lib}/junit-4.13.2.jar"/>
-            </modulepath>
+            <classpath>
+                <path refid="test-classpath"/>
+            </classpath>
             <test name="test.AppTest"/>
         </junit>
     </target>
